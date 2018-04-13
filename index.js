@@ -18,15 +18,18 @@ if (args.length > 0) {
             case '-a':
             case '--add':
                 console.log('Adding task');
-                let task = '';
-                if (args[i + 1].charAt(0) !== '-') {
-                    console.log(i);
-                    while (args[i + 1].charAt(0) !== '-' && (i + 1) < args.length) {
+                let task = args[i + 1];
+                let char = args[i + 1].charAt(0);
+                if (char !== '-') {
+                    while (char !== '-' && (i + 1) < args.length) {
+                        console.log(i + ' ' + args.length);
                         // add to the main string
                         task += ' ' + args[i + 1];
                         // remove from the list of args
                         args.splice(i + 1, 1);
                         i++;
+                        console.log(task);
+                        char = args[i + 1].charAt(0);
                     }
                     console.log(task);
                 } else {
