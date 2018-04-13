@@ -1,0 +1,17 @@
+{
+  "name": "todo-cli",
+  "version": "1.0.0",
+  "description": "Cli to do list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "yo": "./index.js"
+  },
+  "author": "Cory Patterson",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.3.2"
+  }
+}
