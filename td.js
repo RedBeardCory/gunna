@@ -41,6 +41,14 @@ if (args.length > 0) {
                 }
                 console.log((!!task)? chalk.green.bold('Task Completed: ') + chalk.italic(task): chalk.yellow('ERROR:') + ' ' + chalk.cyan.underline('Must specify the name of the task!'));
                 break;
+            case '-l':
+            case '--list':
+                console.log(chalk.green.bold('LISTING'));
+                break;
+            case '-la':
+            case '--list-all':
+                console.log(chalk.green.bold('LISTING ALL, EVEN ') + chalk.bold.red('DELETED') + chalk.green.bold(' TASKS'));
+                break;
             default:
                 console.log('Argument not recognised: ' + args[i]);
         }
@@ -50,7 +58,6 @@ if (args.length > 0) {
 function addTask() {
     fs.open('tasks.json', 'w+', function (err, fp) {
         if (err) throw err;
-        console.log(fp);
         let str = 'this is a test';
         fs.write(fp, str, 0, str.length, function(err) {
             if (err) throw err;
