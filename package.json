@@ -1,14 +1,15 @@
 {
-  "name": "todo-cli",
+  "name": "td",
   "version": "1.0.0",
   "description": "Cli to do list",
-  "main": "index.js",
+  "main": "td.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "yo": "./index.js"
+    "td": "./td.js"
   },
+  "man" : "./man/doc.1",
   "author": "Cory Patterson",
   "license": "MIT",
   "dependencies": {
