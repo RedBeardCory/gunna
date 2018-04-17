@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const chalk = require('chalk');
 const fs = require('fs');
+const os = require('os');
 
 // get command line args
 let args = process.argv.slice(2);
@@ -49,6 +50,14 @@ if (args.length > 0) {
             case '--list-all':
                 console.log(chalk.green.bold('LISTING ALL, EVEN ') + chalk.bold.red('DELETED') + chalk.green.bold(' TASKS'));
                 break;
+            case '-p':
+            case '--pretty':
+                // make a nice printout with ascii art and stuff
+                console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
+                // loop over tasks and print
+                console.log(chalk.green.bold('|                                                 |'))
+                console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
+                break;
             default:
                 console.log('Argument not recognised: ' + args[i]);
         }
@@ -56,7 +65,8 @@ if (args.length > 0) {
 }
 
 function addTask() {
-    fs.open('tasks.json', 'w+', function (err, fp) {
+    console.log(os.homedir());
+    fs.open(os.homedir() + '/tasks.json', 'w+', function (err, fp) {
         if (err) throw err;
         let str = 'this is a test';
         fs.write(fp, str, 0, str.length, function(err) {
