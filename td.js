@@ -55,14 +55,20 @@ if (args.length > 0) {
             case '-p':
             case '--pretty':
                 // make a nice printout with ascii art and stuff
-                console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
                 // loop over tasks and print
-                let tasks = getTasks();
-                for (var i = 0; i < tasks.length; i++) {
-                    console.log(tasks[i]);
-                }
-                // console.log(chalk.green.bold('|                                                 |'))
-                console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
+                getTasks()
+                .then(data => {
+                    console.log(data);
+                    console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
+                    for (var i = 0; i < data.length; i++) {
+                        process.stdout.write(chalk.green.bold('| [] ' + data[i].padEnd(45) + '|\n'));
+                    }
+                    // console.log(chalk.green.bold('|                                                 |'))
+                    console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
+                })
+                .catch(err => {
+                    console.log(err);
+                });
                 break;
             default:
                 console.log('Argument not recognised: ' + args[i]);
@@ -96,17 +102,18 @@ function addTask(task) {
 }
 
 function getTasks() {
-    fs.readFile(FilePath, 'utf8', (err, data) => {
-        let json = null;
-        if (err && err.code === 'ENOENT') {
-            console.log(chalk.yellow('No Tasks Found'));
-        } else {
-            // append the task
-            json = JSON.parse((data === null)? null: data);
-        }
-        return json;
-    });
-
+    return new Promise((resolve, reject) => {
+        fs.readFile(FilePath, 'utf8', (err, data) => {
+            let json = null;
+            if (err && err.code === 'ENOENT') {
+                reject(err);
+            } else {
+                // append the task
+                json = JSON.parse((data === null)? null: data);
+            }
+            resolve(json.tasks);
+        });
+    })
 }
 
 function completeTask() {
