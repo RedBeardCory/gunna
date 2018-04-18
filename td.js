@@ -3,6 +3,8 @@ const chalk = require('chalk');
 const fs = require('fs');
 const os = require('os');
 
+const FilePath = os.homedir() + '/tasks.json';
+
 // get command line args
 let args = process.argv.slice(2);
 
@@ -28,7 +30,7 @@ if (args.length > 0) {
                     i++;
                 }
                 console.log((!!task)? chalk.green.bold('Task Added: ') + chalk.italic(task): chalk.yellow('ERROR:') + ' ' + chalk.cyan.underline('Must specify the name of the task!'));
-                addTask();
+                addTask(task);
                 break;
             case '-d':
             case '--done':
@@ -64,15 +66,28 @@ if (args.length > 0) {
     }
 }
 
-function addTask() {
-    console.log(os.homedir());
-    fs.open(os.homedir() + '/tasks.json', 'w+', function (err, fp) {
-        if (err) throw err;
-        let str = 'this is a test';
-        fs.write(fp, str, 0, str.length, function(err) {
+
+function addTask(task) {
+    fs.readFile(FilePath, 'utf8', (err, data) => {
+        let json = null;
+        if (err && err.code === 'ENOENT') {
+            fs.closeSync(fs.openSync(FilePath, 'w'));
+            console.log(chalk.green.bold('File Created'));
+            // add the task
+            json = {
+                "tasks": [task]
+            }
+        } else {
+            // append the task
+            json = JSON.parse((data === null)? '{"tasks": []}': data);
+            json.tasks.push(task);
+        }
+
+        // write the json
+        fs.writeFile(FilePath, JSON.stringify(json,null, 4), err => {
             if (err) throw err;
-            console.log('success');
-        });
+            console.log(chalk.green.bold('Task Added Successfully'));
+        })
     });
 }
 
