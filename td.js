@@ -57,7 +57,11 @@ if (args.length > 0) {
                 // make a nice printout with ascii art and stuff
                 console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
                 // loop over tasks and print
-                console.log(chalk.green.bold('|                                                 |'))
+                let tasks = getTasks();
+                for (var i = 0; i < tasks.length; i++) {
+                    console.log(tasks[i]);
+                }
+                // console.log(chalk.green.bold('|                                                 |'))
                 console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
                 break;
             default:
@@ -89,6 +93,20 @@ function addTask(task) {
             console.log(chalk.green.bold('Task Added Successfully'));
         })
     });
+}
+
+function getTasks() {
+    fs.readFile(FilePath, 'utf8', (err, data) => {
+        let json = null;
+        if (err && err.code === 'ENOENT') {
+            console.log(chalk.yellow('No Tasks Found'));
+        } else {
+            // append the task
+            json = JSON.parse((data === null)? null: data);
+        }
+        return json;
+    });
+
 }
 
 function completeTask() {
