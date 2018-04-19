@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const fs = require('fs');
 const os = require('os');
 
-const FilePath = os.homedir() + '/tasks.json';
+const FilePath = os.homedir() + '/todo.json';
 
 // get command line args
 let args = process.argv.slice(2);
@@ -34,15 +34,19 @@ if (args.length > 0) {
                 break;
             case '-d':
             case '--done':
-                task = ((i + 1) < args.length && args[i + 1].charAt(0) !== '-')? args[i + 1]: '';
-                i++;
-                while ((i + 1) < args.length && args[i + 1].charAt(0) !== '-') {
-                    // add to the main string
-                    task = task + ' ' + args[i + 1];
-                    // remove from the list of args
+
+                process.stdin.on('data', text => {
+                    console.log(text);
+                    task = ((i + 1) < args.length && args[i + 1].charAt(0) !== '-')? args[i + 1]: '';
                     i++;
-                }
-                console.log((!!task)? chalk.green.bold('Task Completed: ') + chalk.italic(task): chalk.yellow('ERROR:') + ' ' + chalk.cyan.underline('Must specify the name of the task!'));
+                    while ((i + 1) < args.length && args[i + 1].charAt(0) !== '-') {
+                        // add to the main string
+                        task = task + ' ' + args[i + 1];
+                        // remove from the list of args
+                        i++;
+                    }
+                    console.log((!!task)? chalk.green.bold('Task Completed: ') + chalk.italic(task): chalk.yellow('ERROR:') + ' ' + chalk.cyan.underline('Must specify the name of the task!'));
+                });
                 break;
             case '-l':
             case '--list':
@@ -116,7 +120,7 @@ function getTasks() {
     })
 }
 
-function completeTask() {
+function completeTask(int) {
 
 }
 
