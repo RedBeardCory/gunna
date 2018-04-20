@@ -13,15 +13,16 @@ let args = process.argv.slice(2);
 
 // check for any arguments
 if (args.length > 0) {
-    for (var i = 0; i < args.length; i++) {
+    // for (var i = 0; i < args.length; i++) {
         let task = '';
-        switch (args[i]) {
+        switch (args[0]) {
             case '-h':
             case '--help':
                 console.log('Helpful hints');
                 break;
             case '-a':
             case '--add':
+                let i = 0;
                 task = ((i + 1) < args.length && args[i + 1].charAt(0) !== '-')? args[i + 1]: '';
                 i++;
                 while ((i + 1) < args.length && args[i + 1].charAt(0) !== '-') {
@@ -66,23 +67,22 @@ if (args.length > 0) {
                 // make a nice printout with ascii art and stuff
                 // loop over tasks and print
                 getTasks()
-                .then(data => {
-                    console.log(data);
+                .then(json => {
                     console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
-                    for (var i = 0; i < data.length; i++) {
-                        process.stdout.write(chalk.green.bold('| [] ' + data[i].padEnd(45) + '|\n'));
+                    for (var i = 0; i < json.list.length; i++) {
+                        process.stdout.write(chalk.green.bold('|') + chalk.bold(' [] ' + json.list[i].padEnd(45)) + chalk.green.bold('|\n'));
                     }
                     // console.log(chalk.green.bold('|                                                 |'))
                     console.log(chalk.green.bold('|>------>>>------>>> ToDo List <<<------<<<------<|'));
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.log(chalk.red.bold('ERROR: ') + chalk.red.underline('Add a task first!'));
                 });
                 break;
             default:
                 console.log('Argument not recognised: ' + args[i]);
         }
-    }
+    // }
 }
 
 
@@ -94,16 +94,22 @@ function addTask(task) {
             console.log(chalk.green.bold('File Created'));
             // add the task
             json = {
-                "tasks": [task]
-            }
+                "tasks": {
+                    "list": [task],
+                    "done": []
+                },
+                "config": {
+                    "test": true
+                }
+            };
         } else {
             // append the task
-            json = JSON.parse((data === null)? '{"tasks": []}': data);
-            json.tasks.push(task);
+            json = JSON.parse((data === null)? '{"tasks": {"list": [], "done": []}}': data);
+            json.tasks.list.push(task);
         }
 
         // write the json
-        fs.writeFile(FilePath, JSON.stringify(json,null, 4), err => {
+        fs.writeFile(FilePath, JSON.stringify(json, null, 4), err => {
             if (err) throw err;
             console.log(chalk.green.bold('Task Added Successfully'));
         })
