@@ -9,10 +9,11 @@
   "bin": {
     "td": "./td.js"
   },
-  "man" : "./man/doc.1",
+  "man": "./man/doc.1",
   "author": "Cory Patterson",
   "license": "MIT",
   "dependencies": {
+    "boxen": "^1.3.0",
     "chalk": "^2.3.2"
   }
 }
