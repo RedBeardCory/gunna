@@ -1,4 +1,4 @@
-# td
+# gunna
 
 #### By Cory Patterson
 
@@ -31,11 +31,11 @@ Displays all the todo tasks.
 
 Add a task to the list.
 
-`td -r || td --remove`:
+`td -r [(optional) task #] || td --remove [(optional) task #]`:
 
 Remove a task from the list.
 
-`td -d || td  --done`:
+`td -d [(optional) task #] || td  --done [(optional) task #]`:
 
 Mark a task as complete.
 
@@ -46,5 +46,6 @@ Just some features that I thought could make this pretty cool:
 - [ ] Sync lists and settings across devices (via google drive or something)
 - [ ] Interactive selection instead of text prompts
 - [ ] Configuration options (colours and stuff)
+- [ ] Priority of tasks
 
 If you think there is an awesome feature just make an issue on this repo with the feature and explain what it does and I'll consider adding it to the program.
