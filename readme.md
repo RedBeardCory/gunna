@@ -47,5 +47,7 @@ Just some features that I thought could make this pretty cool:
 - [ ] Interactive selection instead of text prompts
 - [ ] Configuration options (colours and stuff)
 - [ ] Priority of tasks
+- [ ] Task History
+- [ ] Different Lists
 
 If you think there is an awesome feature just make an issue on this repo with the feature and explain what it does and I'll consider adding it to the program.
